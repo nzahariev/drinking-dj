@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --neon-pink: #ff2d95;
+  --neon-cyan: #00f5ff;
+  --club-black: #0a0a0f;
+  --club-dark: #12121a;
+}
+
+body {
+  @apply bg-club-black text-white antialiased;
+  min-height: 100vh;
+}
+
+/* Tap to enable overlay */
+.audio-gate-overlay {
+  @apply fixed inset-0 z-50 flex items-center justify-center bg-club-black/95;
+}
+
+/* Big tactile buttons */
+.btn-dj {
+  @apply rounded-xl font-bold transition-all duration-150 active:scale-95;
+  @apply border-2 border-club-border bg-club-card hover:border-club-neon-pink hover:shadow-lg hover:shadow-club-neon-pink/20;
+}
+
+.btn-sfx {
+  @apply min-h-[72px] rounded-xl border-2 font-bold transition-all duration-150 active:scale-95;
+  @apply border-club-border bg-club-card hover:border-club-neon-cyan hover:shadow-lg hover:shadow-club-neon-cyan/20;
+}
+
+/* Crossfader track */
+.crossfader-track {
+  @apply h-3 rounded-full bg-club-card border border-club-border;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-club-dark rounded;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-club-border rounded hover:bg-club-neon-pink/50;
+}
