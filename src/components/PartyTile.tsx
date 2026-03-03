@@ -135,7 +135,7 @@ export function PartyTile({ item, onPress, onLabelChange, onColorChange }: Party
               <button
                 key={c}
                 type="button"
-                onPointerDown={(e) => e.stopPropagation()}
+                onPointerDown={(e) => { e.stopPropagation(); e.preventDefault(); }}
                 onClick={(e) => {
                   e.stopPropagation();
                   onColorChange(item.id, c);
