@@ -142,7 +142,7 @@ export function YouTubePlayer({
         <div className="rounded-lg bg-club-card border border-amber-500/50 p-3 text-sm">
           <p className="text-amber-200 mb-2">This video can’t be played in the app (unavailable or embedding disabled).</p>
           <a
-            href={youtubeWatchUrl}
+            href={youtubeWatchUrl ?? undefined}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-red-600 hover:bg-red-500 text-white font-medium"
