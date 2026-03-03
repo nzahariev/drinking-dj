@@ -14,6 +14,20 @@ body {
   min-height: 100vh;
 }
 
+/* Party mode fullscreen text flash */
+@keyframes party-flash {
+  0%, 100% {
+    filter: brightness(1) drop-shadow(0 0 4px currentColor) drop-shadow(0 0 10px currentColor);
+  }
+  50% {
+    filter: brightness(1.9) drop-shadow(0 0 8px currentColor) drop-shadow(0 0 18px currentColor) drop-shadow(0 0 28px currentColor);
+  }
+}
+
+.party-flash-text {
+  animation: party-flash 0.9s ease-in-out infinite;
+}
+
 /* Tap to enable overlay */
 .audio-gate-overlay {
   @apply fixed inset-0 z-50 flex items-center justify-center bg-club-black/95;

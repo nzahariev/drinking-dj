@@ -9,7 +9,11 @@ import { Soundboard } from '@/components/Soundboard';
 import { DJTools } from '@/components/DJTools';
 import { QueuePanel } from '@/components/QueuePanel';
 import { KeyboardShortcuts } from '@/components/KeyboardShortcuts';
+import { PartyGrid } from '@/components/PartyGrid';
+import { PartyFullscreen } from '@/components/PartyFullscreen';
 import type { QueueItem, NowPlaying } from '@/components/YouTubePlayer';
+import { DEFAULT_PARTY_ITEMS } from '@/lib/partyItems';
+import type { PartyItem } from '@/lib/partyItems';
 
 function generateId() {
   return Math.random().toString(36).slice(2, 12);
@@ -18,6 +22,9 @@ function generateId() {
 export default function HomePage() {
   const [audioUnlocked, setAudioUnlocked] = useState(false);
   const [showShortcuts, setShowShortcuts] = useState(false);
+  const [appMode, setAppMode] = useState<'dj' | 'party'>('dj');
+  const [partyItems, setPartyItems] = useState<PartyItem[]>(DEFAULT_PARTY_ITEMS);
+  const [activePartyItem, setActivePartyItem] = useState<PartyItem | null>(null);
   const [musicVolume, setMusicVolume] = useState(100);
   const [crossfader, setCrossfader] = useState(0.5);
   const [nowPlaying, setNowPlaying] = useState<NowPlaying | null>(null);
@@ -48,49 +55,90 @@ export default function HomePage() {
   }, []);
 
   const content = (
-    <div className="min-h-screen bg-club-black flex flex-col lg:flex-row lg:h-screen">
+    <div className="min-h-screen bg-club-black flex flex-col lg:h-screen">
       <header className="flex-shrink-0 flex items-center justify-between px-4 py-2 border-b border-club-border bg-club-dark">
         <span className="font-display text-xl text-club-neon-pink">DRINKING DJ</span>
-        <button
-          type="button"
-          onClick={() => setShowShortcuts(true)}
-          className="text-club-mute hover:text-white text-sm px-2 py-1 rounded"
-        >
-          Shortcuts
-        </button>
+        <div className="flex rounded-lg border border-club-border overflow-hidden">
+          <button
+            type="button"
+            onClick={() => setAppMode('dj')}
+            className={`px-3 py-1 text-sm font-bold transition-colors ${
+              appMode === 'dj'
+                ? 'bg-[#ff2d95] text-black'
+                : 'bg-transparent text-club-mute hover:text-white'
+            }`}
+          >
+            DJ
+          </button>
+          <button
+            type="button"
+            onClick={() => setAppMode('party')}
+            className={`px-3 py-1 text-sm font-bold transition-colors ${
+              appMode === 'party'
+                ? 'bg-[#00f5ff] text-black'
+                : 'bg-transparent text-club-mute hover:text-white'
+            }`}
+          >
+            PARTY
+          </button>
+        </div>
+        {appMode === 'dj' && (
+          <button
+            type="button"
+            onClick={() => setShowShortcuts(true)}
+            className="text-club-mute hover:text-white text-sm px-2 py-1 rounded"
+          >
+            Shortcuts
+          </button>
+        )}
       </header>
 
-      <div className="flex-1 flex flex-col lg:flex-row min-h-0">
-        <section className="flex-shrink-0 lg:w-[360px] flex flex-col border-b lg:border-b-0 lg:border-r border-club-border">
-          <YouTubePlayer
-            nowPlaying={nowPlaying}
-            isPlaying={isPlaying}
-            onPlay={handlePlay}
-            onPause={handlePause}
-            onNext={handleNext}
-            onSetVideo={handleSetVideo}
-            onQueueAdd={handleQueueAdd}
-            queue={queue}
-            volume={Math.round((1 - crossfader) * musicVolume)}
-          />
-          <QueuePanel queue={queue} onRemove={handleQueueRemove} />
-          <AudioFallbackPlayer volume={Math.round((1 - crossfader) * musicVolume)} />
-        </section>
+      {appMode === 'dj' ? (
+        <div className="flex-1 flex flex-col lg:flex-row min-h-0">
+          <section className="flex-shrink-0 lg:w-[360px] flex flex-col border-b lg:border-b-0 lg:border-r border-club-border">
+            <YouTubePlayer
+              nowPlaying={nowPlaying}
+              isPlaying={isPlaying}
+              onPlay={handlePlay}
+              onPause={handlePause}
+              onNext={handleNext}
+              onSetVideo={handleSetVideo}
+              onQueueAdd={handleQueueAdd}
+              queue={queue}
+              volume={Math.round((1 - crossfader) * musicVolume)}
+            />
+            <QueuePanel queue={queue} onRemove={handleQueueRemove} />
+            <AudioFallbackPlayer volume={Math.round((1 - crossfader) * musicVolume)} />
+          </section>
 
-        <section className="flex-1 p-4 overflow-auto">
-          <Soundboard audioUnlocked={audioUnlocked} />
-        </section>
+          <section className="flex-1 p-4 overflow-auto">
+            <Soundboard audioUnlocked={audioUnlocked} />
+          </section>
 
-        <section className="flex-shrink-0 lg:w-[280px] border-t lg:border-t-0 lg:border-l border-club-border">
-          <DJTools
-            audioUnlocked={audioUnlocked}
-            musicVolume={musicVolume}
-            onMusicVolumeChange={setMusicVolume}
-            crossfader={crossfader}
-            onCrossfaderChange={setCrossfader}
+          <section className="flex-shrink-0 lg:w-[280px] border-t lg:border-t-0 lg:border-l border-club-border">
+            <DJTools
+              audioUnlocked={audioUnlocked}
+              musicVolume={musicVolume}
+              onMusicVolumeChange={setMusicVolume}
+              crossfader={crossfader}
+              onCrossfaderChange={setCrossfader}
+            />
+          </section>
+        </div>
+      ) : (
+        <div className="flex-1 overflow-auto">
+          <PartyGrid
+            items={partyItems}
+            onItemsChange={setPartyItems}
+            onTilePress={setActivePartyItem}
           />
-        </section>
-      </div>
+        </div>
+      )}
+
+      <PartyFullscreen
+        item={activePartyItem}
+        onClose={() => setActivePartyItem(null)}
+      />
     </div>
   );
 
