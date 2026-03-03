@@ -70,14 +70,15 @@ function useAutoScaleText(item: PartyItemText | null) {
       if (!parent) return;
 
       el.style.whiteSpace = 'nowrap';
-      const maxWidth = parent.clientWidth - 16; // 8px padding each side
+      const maxWidth = parent.clientWidth - 32;   // 16px padding each side
+      const maxHeight = window.innerHeight - 80;  // reserve space for "TAP TO CLOSE" + breathing room
 
-      // Binary search for the largest font size that fills the container width
+      // Binary search for the largest font size that fits both width and height
       let lo = 20, hi = 600;
       while (hi - lo > 1) {
         const mid = Math.floor((lo + hi) / 2);
         el.style.fontSize = `${mid}px`;
-        if (el.scrollWidth <= maxWidth) {
+        if (el.scrollWidth <= maxWidth && el.scrollHeight <= maxHeight) {
           lo = mid;
         } else {
           hi = mid;
@@ -148,7 +149,7 @@ export function PartyFullscreen({ item, onClose }: PartyFullscreenProps) {
       </span>
 
       {item.kind === 'text' ? (
-        <div className="w-full flex items-center justify-center px-2">
+        <div className="w-full flex items-center justify-center px-4">
           <span
             ref={textRef}
             className="font-display text-center leading-none select-none party-flash-text"
