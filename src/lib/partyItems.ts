@@ -12,7 +12,13 @@ export type PartyItemGif = {
   url: string;
 };
 
-export type PartyItem = PartyItemText | PartyItemGif;
+export type PartyItemPiano = {
+  id: string;
+  kind: "piano";
+  label: string;
+};
+
+export type PartyItem = PartyItemText | PartyItemGif | PartyItemPiano;
 
 export const DEFAULT_PARTY_ITEMS: PartyItem[] = [
   { id: "pt1", kind: "text", label: "ГАЛЕНА", color: "pink" },
@@ -35,5 +41,6 @@ export const DEFAULT_PARTY_ITEMS: PartyItem[] = [
     label: "",
     url: "https://media.giphy.com/media/HSCZMUa1ao17h7l5mg/giphy.gif",
   },
+  { id: "ppiano1", kind: "piano", label: "PIANO" },
   { id: "blank", kind: "text", label: "", color: "purple" },
 ];

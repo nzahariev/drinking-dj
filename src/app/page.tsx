@@ -11,6 +11,7 @@ import { QueuePanel } from '@/components/QueuePanel';
 import { KeyboardShortcuts } from '@/components/KeyboardShortcuts';
 import { PartyGrid } from '@/components/PartyGrid';
 import { PartyFullscreen } from '@/components/PartyFullscreen';
+import { PartyPiano } from '@/components/PartyPiano';
 import type { QueueItem, NowPlaying } from '@/components/YouTubePlayer';
 import { DEFAULT_PARTY_ITEMS } from '@/lib/partyItems';
 import type { PartyItem } from '@/lib/partyItems';
@@ -135,10 +136,14 @@ export default function HomePage() {
         </div>
       )}
 
-      <PartyFullscreen
-        item={activePartyItem}
-        onClose={() => setActivePartyItem(null)}
-      />
+      {activePartyItem?.kind === 'piano' ? (
+        <PartyPiano onClose={() => setActivePartyItem(null)} />
+      ) : (
+        <PartyFullscreen
+          item={activePartyItem}
+          onClose={() => setActivePartyItem(null)}
+        />
+      )}
     </div>
   );
 

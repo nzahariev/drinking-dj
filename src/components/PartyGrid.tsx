@@ -29,6 +29,7 @@ export function PartyGrid({ items, onItemsChange, onTilePress }: PartyGridProps)
 
   const textItems = items.filter((i) => i.kind === 'text');
   const mediaItems = items.filter((i) => i.kind === 'gif');
+  const widgetItems = items.filter((i) => i.kind === 'piano');
 
   function renderTile(item: PartyItem) {
     return (
@@ -57,6 +58,14 @@ export function PartyGrid({ items, onItemsChange, onTilePress }: PartyGridProps)
           <p className="text-club-mute text-xs tracking-widest uppercase mb-3">Images</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             {mediaItems.map(renderTile)}
+          </div>
+        </section>
+      )}
+      {widgetItems.length > 0 && (
+        <section>
+          <p className="text-club-mute text-xs tracking-widest uppercase mb-3">Widgets</p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            {widgetItems.map(renderTile)}
           </div>
         </section>
       )}

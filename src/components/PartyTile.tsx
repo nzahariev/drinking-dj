@@ -82,6 +82,20 @@ export function PartyTile({ item, onPress, onLabelChange, onColorChange }: Party
     startEdit();
   }
 
+  if (item.kind === 'piano') {
+    return (
+      <div
+        className="relative bg-club-card rounded-2xl min-h-[140px] flex flex-col items-center justify-center cursor-pointer select-none overflow-hidden border-2 border-club-border hover:border-[#00f5ff] transition-colors"
+        onClick={() => onPress(item)}
+      >
+        <span className="text-4xl mb-1">🎹</span>
+        <span className="font-display text-lg uppercase text-[#00f5ff]">
+          {item.label}
+        </span>
+      </div>
+    );
+  }
+
   if (item.kind === 'text') {
     const bg = COLOR_BG[item.color] ?? 'bg-[#ff2d95]';
     return (

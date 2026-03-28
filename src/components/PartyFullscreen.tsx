@@ -148,7 +148,7 @@ export function PartyFullscreen({ item, onClose }: PartyFullscreenProps) {
         TAP TO CLOSE
       </span>
 
-      {item.kind === 'text' ? (
+      {item.kind === 'piano' ? null : item.kind === 'text' ? (
         <div className="w-full flex items-center justify-center px-4">
           <span
             ref={textRef}
