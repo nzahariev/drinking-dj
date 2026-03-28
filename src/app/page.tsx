@@ -22,7 +22,7 @@ function generateId() {
 export default function HomePage() {
   const [audioUnlocked, setAudioUnlocked] = useState(false);
   const [showShortcuts, setShowShortcuts] = useState(false);
-  const [appMode, setAppMode] = useState<'dj' | 'party'>('dj');
+  const [appMode, setAppMode] = useState<'dj' | 'party'>('party');
   const [partyItems, setPartyItems] = useState<PartyItem[]>(DEFAULT_PARTY_ITEMS);
   const [activePartyItem, setActivePartyItem] = useState<PartyItem | null>(null);
   const [musicVolume, setMusicVolume] = useState(100);
@@ -142,14 +142,18 @@ export default function HomePage() {
     </div>
   );
 
+  const needsAudioGate = appMode === 'dj' && !audioUnlocked;
+
   return (
     <>
-      {!audioUnlocked ? (
+      {needsAudioGate ? (
         <AudioGate onUnlock={() => setAudioUnlocked(true)} />
-      ) : (
+      ) : audioUnlocked ? (
         <SoundEngineProvider unlocked={true}>
           {content}
         </SoundEngineProvider>
+      ) : (
+        content
       )}
       {showShortcuts && <KeyboardShortcuts onClose={() => setShowShortcuts(false)} />}
     </>
