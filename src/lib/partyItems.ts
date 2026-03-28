@@ -20,19 +20,19 @@ export const DEFAULT_PARTY_ITEMS: PartyItem[] = [
   {
     id: "pg1",
     kind: "gif",
-    label: "❤️",
+    label: "",
     url: "https://openmoji.org/data/color/svg/2764.svg",
   },
   {
     id: "pg2",
     kind: "gif",
-    label: "❤️",
+    label: "",
     url: "https://media.giphy.com/media/3oz8xIsloV7zOmt81G/giphy.gif",
   },
   {
     id: "pg3",
     kind: "gif",
-    label: "❤️",
+    label: "",
     url: "https://media.giphy.com/media/HSCZMUa1ao17h7l5mg/giphy.gif",
   },
   { id: "blank", kind: "text", label: "", color: "purple" },
